@@ -3,65 +3,264 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2624 Metcalfe – Inspection Images</title>
+  <title>2624 Metcalfe – Inspection Report</title>
   <style>
-    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-    h1 { font-size: 1.25rem; color: #333; }
-    p.meta { color: #666; font-size: 0.875rem; margin-bottom: 1rem; }
-    table { width: 100%; border-collapse: collapse; }
-    th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid #ddd; }
-    th { background: #f5f5f5; font-weight: 600; }
-    td:nth-child(1) { width: 2.5rem; color: #666; }
-    td:nth-child(3) { white-space: nowrap; }
-    a { color: #0066cc; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    #load { color: #666; }
-    #error { color: #c00; }
+    :root {
+      --bg: #f8f9fa;
+      --card: #fff;
+      --border: #dee2e6;
+      --text: #212529;
+      --muted: #6c757d;
+      --primary: #0d6efd;
+      --primary-hover: #0b5ed7;
+    }
+    * { box-sizing: border-box; }
+    body { font-family: system-ui, -apple-system, sans-serif; margin: 0; padding: 1rem; background: var(--bg); color: var(--text); line-height: 1.5; }
+    .container { max-width: 900px; margin: 0 auto; }
+
+    header { margin-bottom: 1.25rem; }
+    h1 { font-size: 1.35rem; font-weight: 600; margin: 0 0 0.25rem 0; }
+    .meta { font-size: 0.875rem; color: var(--muted); margin: 0; }
+
+    .filters { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; margin-bottom: 1.25rem; }
+    .filters label { font-size: 0.875rem; font-weight: 500; color: var(--muted); }
+    .filters select {
+      font-size: 1rem; padding: 0.5rem 2rem 0.5rem 0.75rem; border: 1px solid var(--border); border-radius: 6px;
+      background: var(--card); color: var(--text); min-width: 180px; cursor: pointer;
+    }
+    .filters select:focus { outline: none; border-color: var(--primary); }
+
+    .viewer { background: var(--card); border-radius: 8px; border: 1px solid var(--border); overflow: hidden; margin-bottom: 1rem; }
+    .image-wrap { background: #111; min-height: 280px; display: flex; align-items: center; justify-content: center; position: relative; }
+    .image-wrap img { max-width: 100%; max-height: 70vh; width: auto; height: auto; display: block; }
+    .image-wrap .placeholder { color: #666; padding: 2rem; }
+    .image-wrap .loading { color: #999; }
+
+    .nav-row { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1rem; background: var(--bg); border-top: 1px solid var(--border); flex-wrap: wrap; }
+    .nav-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.35rem;
+      padding: 0.6rem 1.25rem; font-size: 1rem; font-weight: 500; border: none; border-radius: 6px;
+      background: var(--primary); color: #fff; cursor: pointer; min-width: 120px;
+    }
+    .nav-btn:hover { background: var(--primary-hover); }
+    .nav-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .nav-btn svg { width: 1.1em; height: 1.1em; }
+    .nav-counter { font-size: 0.9rem; color: var(--muted); white-space: nowrap; }
+
+    .details { padding: 1rem 1.25rem; }
+    .details h2 { font-size: 1rem; font-weight: 600; margin: 0 0 0.5rem 0; color: var(--muted); }
+    .details .description { font-size: 1rem; margin: 0 0 0.75rem 0; }
+    .details .keywords { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+    .details .keyword { font-size: 0.75rem; padding: 0.2rem 0.5rem; background: var(--bg); border-radius: 4px; color: var(--muted); }
+
+    #load { color: var(--muted); padding: 2rem; }
+    #error { color: #c00; padding: 1rem; }
+
+    @media (min-width: 600px) {
+      .filters { flex-wrap: nowrap; }
+      .nav-row { gap: 1.5rem; }
+    }
   </style>
 </head>
 <body>
-  <h1>2624 Metcalfe – Inspection Images</h1>
-  <p class="meta" id="meta"></p>
-  <p id="load">Loading…</p>
-  <p id="error"></p>
-  <table id="table" hidden>
-    <thead>
-      <tr>
-        <th>#</th>
-        <th>Description</th>
-        <th>Image</th>
-      </tr>
-    </thead>
-    <tbody></tbody>
-  </table>
+  <div class="container">
+    <header>
+      <h1>2624 Metcalfe – Inspection Report</h1>
+      <p class="meta" id="meta"></p>
+    </header>
+
+    <p id="load">Loading…</p>
+    <p id="error"></p>
+
+    <div id="app" hidden>
+      <div class="filters">
+        <div>
+          <label for="room">Area / Room</label><br>
+          <select id="room" aria-label="Filter by area or room"></select>
+        </div>
+        <div style="flex: 1; min-width: 200px;">
+          <label for="item">Item</label><br>
+          <select id="item" aria-label="Select specific item"></select>
+        </div>
+      </div>
+
+      <div class="viewer">
+        <div class="image-wrap">
+          <span class="placeholder" id="imgPlaceholder">Select an item above</span>
+          <img id="mainImg" alt="" hidden>
+        </div>
+        <div class="nav-row">
+          <button type="button" class="nav-btn" id="btnPrev" aria-label="Previous image">
+            <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/></svg>
+            Previous
+          </button>
+          <span class="nav-counter" id="counter"></span>
+          <button type="button" class="nav-btn" id="btnNext" aria-label="Next image">
+            Next
+            <svg fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/></svg>
+          </button>
+        </div>
+        <div class="details">
+          <h2>Description</h2>
+          <p class="description" id="desc"></p>
+          <div class="keywords" id="keywords"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script>
-    fetch('images/index.json')
-      .then(r => r.ok ? r.json() : Promise.reject(new Error(r.statusText)))
-      .then(data => {
-        document.getElementById('load').hidden = true;
-        document.getElementById('meta').textContent = data.source + ' · Updated ' + data.updated;
-        const tbody = document.querySelector('#table tbody');
-        data.images.forEach((img, i) => {
-          const tr = document.createElement('tr');
-          tr.innerHTML =
-            '<td>' + (i + 1) + '</td>' +
-            '<td>' + escapeHtml(img.description) + '</td>' +
-            '<td><a href="' + escapeHtml(img.url) + '" target="_blank" rel="noopener">' + escapeHtml(img.filename) + '</a></td>';
-          tbody.appendChild(tr);
-        });
-        document.getElementById('table').hidden = false;
-      })
-      .catch(err => {
-        document.getElementById('load').hidden = true;
-        document.getElementById('error').textContent = 'Could not load index: ' + err.message;
-      });
+    (function() {
+      let data = null;
+      let list = [];           // current filtered list (images)
+      let currentIndex = 0;    // index in list
 
-    function escapeHtml(s) {
-      const div = document.createElement('div');
-      div.textContent = s;
-      return div.innerHTML;
-    }
+      function getRoom(description) {
+        if (!description) return 'Other';
+        const i = description.indexOf(' - ');
+        return i > 0 ? description.slice(0, i).trim() : description.trim();
+      }
+
+      function getRooms(images) {
+        const set = new Set();
+        images.forEach(img => set.add(getRoom(img.description)));
+        return ['All areas', ...Array.from(set).sort()];
+      }
+
+      function filterByRoom(room) {
+        if (room === 'All areas') return data.images;
+        return data.images.filter(img => getRoom(img.description) === room);
+      }
+
+      function escapeHtml(s) {
+        const div = document.createElement('div');
+        div.textContent = s;
+        return div.innerHTML;
+      }
+
+      function renderRoomOptions() {
+        const sel = document.getElementById('room');
+        sel.innerHTML = '';
+        getRooms(data.images).forEach(room => {
+          const opt = document.createElement('option');
+          opt.value = room;
+          opt.textContent = room;
+          sel.appendChild(opt);
+        });
+      }
+
+      function renderItemOptions() {
+        const sel = document.getElementById('item');
+        const room = document.getElementById('room').value;
+        list = filterByRoom(room);
+        sel.innerHTML = '';
+        list.forEach((img, i) => {
+          const opt = document.createElement('option');
+          opt.value = i;
+          opt.textContent = img.description || img.filename;
+          sel.appendChild(opt);
+        });
+        currentIndex = 0;
+        if (list.length) {
+          sel.value = 0;
+          showCurrent();
+        } else {
+          clearDisplay();
+        }
+        updateNav();
+      }
+
+      function showCurrent() {
+        const img = list[currentIndex];
+        if (!img) return;
+        const mainImg = document.getElementById('mainImg');
+        const placeholder = document.getElementById('imgPlaceholder');
+        placeholder.hidden = true;
+        placeholder.textContent = 'Loading…';
+        mainImg.hidden = true;
+        mainImg.alt = img.description || img.filename;
+        mainImg.onload = function() {
+          placeholder.hidden = true;
+          mainImg.hidden = false;
+        };
+        mainImg.onerror = function() {
+          placeholder.textContent = 'Image could not be loaded';
+          placeholder.hidden = false;
+          mainImg.hidden = true;
+        };
+        mainImg.src = img.url;
+
+        document.getElementById('desc').textContent = img.description || '—';
+        const kw = document.getElementById('keywords');
+        kw.innerHTML = '';
+        (img.keywords || []).forEach(k => {
+          const span = document.createElement('span');
+          span.className = 'keyword';
+          span.textContent = k;
+          kw.appendChild(span);
+        });
+
+        document.getElementById('item').value = currentIndex;
+        updateCounter();
+      }
+
+      function clearDisplay() {
+        document.getElementById('imgPlaceholder').textContent = 'No items in this area';
+        document.getElementById('imgPlaceholder').hidden = false;
+        document.getElementById('mainImg').hidden = true;
+        document.getElementById('mainImg').src = '';
+        document.getElementById('desc').textContent = '—';
+        document.getElementById('keywords').innerHTML = '';
+        document.getElementById('counter').textContent = '';
+      }
+
+      function updateCounter() {
+        if (list.length === 0) return;
+        document.getElementById('counter').textContent = 'Image ' + (currentIndex + 1) + ' of ' + list.length;
+      }
+
+      function updateNav() {
+        document.getElementById('btnPrev').disabled = list.length <= 1;
+        document.getElementById('btnNext').disabled = list.length <= 1;
+      }
+
+      function go(delta) {
+        if (list.length === 0) return;
+        currentIndex = (currentIndex + delta + list.length) % list.length;
+        showCurrent();
+      }
+
+      function init() {
+        document.getElementById('room').addEventListener('change', renderItemOptions);
+        document.getElementById('item').addEventListener('change', function() {
+          currentIndex = parseInt(this.value, 10);
+          showCurrent();
+        });
+        document.getElementById('btnPrev').addEventListener('click', function() { go(-1); });
+        document.getElementById('btnNext').addEventListener('click', function() { go(1); });
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'ArrowLeft') { go(-1); e.preventDefault(); }
+          if (e.key === 'ArrowRight') { go(1); e.preventDefault(); }
+        });
+      }
+
+      fetch('images/index.json')
+        .then(r => r.ok ? r.json() : Promise.reject(new Error(r.statusText)))
+        .then(json => {
+          data = json;
+          document.getElementById('load').hidden = true;
+          document.getElementById('meta').textContent = data.source + ' · Updated ' + data.updated;
+          document.getElementById('app').hidden = false;
+          renderRoomOptions();
+          renderItemOptions();
+          init();
+        })
+        .catch(err => {
+          document.getElementById('load').hidden = true;
+          document.getElementById('error').textContent = 'Could not load report: ' + err.message;
+        });
+    })();
   </script>
 </body>
 </html>
