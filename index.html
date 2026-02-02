@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2624 Metcalfe – Inspection Images</title>
+  <style>
+    body { font-family: system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+    h1 { font-size: 1.25rem; color: #333; }
+    p.meta { color: #666; font-size: 0.875rem; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: 0.5rem 0.75rem; border-bottom: 1px solid #ddd; }
+    th { background: #f5f5f5; font-weight: 600; }
+    td:nth-child(1) { width: 2.5rem; color: #666; }
+    td:nth-child(3) { white-space: nowrap; }
+    a { color: #0066cc; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    #load { color: #666; }
+    #error { color: #c00; }
+  </style>
+</head>
+<body>
+  <h1>2624 Metcalfe – Inspection Images</h1>
+  <p class="meta" id="meta"></p>
+  <p id="load">Loading…</p>
+  <p id="error"></p>
+  <table id="table" hidden>
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Description</th>
+        <th>Image</th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+
+  <script>
+    fetch('images/index.json')
+      .then(r => r.ok ? r.json() : Promise.reject(new Error(r.statusText)))
+      .then(data => {
+        document.getElementById('load').hidden = true;
+        document.getElementById('meta').textContent = data.source + ' · Updated ' + data.updated;
+        const tbody = document.querySelector('#table tbody');
+        data.images.forEach((img, i) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML =
+            '<td>' + (i + 1) + '</td>' +
+            '<td>' + escapeHtml(img.description) + '</td>' +
+            '<td><a href="' + escapeHtml(img.url) + '" target="_blank" rel="noopener">' + escapeHtml(img.filename) + '</a></td>';
+          tbody.appendChild(tr);
+        });
+        document.getElementById('table').hidden = false;
+      })
+      .catch(err => {
+        document.getElementById('load').hidden = true;
+        document.getElementById('error').textContent = 'Could not load index: ' + err.message;
+      });
+
+    function escapeHtml(s) {
+      const div = document.createElement('div');
+      div.textContent = s;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>
