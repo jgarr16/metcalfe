@@ -1,6 +1,6 @@
 # Metcalfe Image Comparison List
 
-Compared against the original `IMG_####.jpeg` image list from `images/index.json`.
+Compared against the original `IMG_####.jpeg` image list from `original_images/index.json`.
 
 ## Metcalfe Images Without An Original Match
 
