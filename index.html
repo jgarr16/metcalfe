@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="theme-color" content="#111">
-  <title>2624 Metcalfe – Inspection Report</title>
+  <title>Metcalfe - Move-in Inspection</title>
   <style>
     :root {
       --bg: #f0f0f0;
@@ -41,6 +41,7 @@
       padding: clamp(0.45rem, 1.5vw, 0.75rem) clamp(0.75rem, 2vw, 1rem);
       background: var(--card);
       border-bottom: 1px solid var(--border);
+      text-align: center;
     }
     .header.hidden { display: none; }
     .header h1 { font-size: clamp(1rem, 2vw, 1.25rem); font-weight: 600; margin: 0; }
@@ -54,6 +55,7 @@
       background: var(--card);
     }
     .image-wrap {
+      position: relative;
       min-height: 0;
       overflow: hidden;
       display: flex;
@@ -67,6 +69,29 @@
     .image-wrap img { max-width: 100%; max-height: 100%; width: auto; height: auto; object-fit: contain; display: block; pointer-events: none; }
     .image-wrap .placeholder { color: #666; padding: 1rem; font-size: 0.9rem; text-align: center; }
     .image-wrap .loading { color: #999; }
+    .image-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 2;
+      width: clamp(2.5rem, 5vw, 3.25rem);
+      height: clamp(2.5rem, 5vw, 3.25rem);
+      border: 0;
+      border-radius: 999px;
+      background: rgba(13, 110, 253, 0.88);
+      color: #fff;
+      font-size: clamp(1.35rem, 3vw, 1.8rem);
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.25);
+    }
+    .image-nav:hover { background: var(--primary-hover); }
+    .image-nav:active { transform: translateY(-50%) scale(0.96); }
+    .image-nav.prev { left: clamp(0.5rem, 2vw, 1rem); }
+    .image-nav.next { right: clamp(0.5rem, 2vw, 1rem); }
 
     .nav-row {
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
@@ -167,14 +192,15 @@
 
   <div id="app" class="app" hidden>
     <header class="header" id="header">
-      <h1>2624 Metcalfe – Inspection Report</h1>
-      <p class="meta" id="meta"></p>
+      <h1>Metcalfe - Move-in Inspection</h1>
     </header>
 
     <div class="viewer">
       <div class="image-wrap" id="imageWrap">
+        <button type="button" class="image-nav prev" id="imagePrev" aria-label="Previous image">&#8249;</button>
         <span class="placeholder" id="imgPlaceholder">Loading…</span>
         <img id="mainImg" alt="" hidden>
+        <button type="button" class="image-nav next" id="imageNext" aria-label="Next image">&#8250;</button>
       </div>
       <div class="nav-row">
         <button type="button" class="nav-btn" id="btnPrev" aria-label="Previous">&#171;&#171;</button>
@@ -187,7 +213,7 @@
         <dl class="detail-grid">
           <dt>Room</dt>
           <dd id="room"></dd>
-          <dt>Date Taken</dt>
+          <dt>Photo Date;</dt>
           <dd id="takenDate"></dd>
           <dt>Note</dt>
           <dd id="desc"></dd>
@@ -286,7 +312,7 @@
       }
 
       function updateHeaderVisibility() {
-        document.getElementById('header').classList.toggle('hidden', currentIndex > 0);
+        document.getElementById('header').classList.remove('hidden');
       }
 
       function updateNav() {
@@ -322,6 +348,8 @@
       function init() {
         document.getElementById('btnPrev').addEventListener('click', function() { go(-1); });
         document.getElementById('btnNext').addEventListener('click', function() { go(1); });
+        document.getElementById('imagePrev').addEventListener('click', function(e) { e.stopPropagation(); go(-1); });
+        document.getElementById('imageNext').addEventListener('click', function(e) { e.stopPropagation(); go(1); });
         document.getElementById('fullscreenClose').addEventListener('click', closeFullscreen);
         document.getElementById('fullscreen').addEventListener('click', function(e) {
           if (e.target === this || e.target.classList.contains('hint')) closeFullscreen();
@@ -355,7 +383,6 @@
           list = data.images;
           currentIndex = 0;
           document.getElementById('load').hidden = true;
-          document.getElementById('meta').textContent = data.source + ' · ' + data.updated;
           document.getElementById('app').hidden = false;
           if (list.length) {
             showCurrent();
