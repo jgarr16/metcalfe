@@ -145,6 +145,31 @@
     }
     .details .keywords { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.25rem; margin-top: 0.9rem; }
     .details .keyword { font-size: 0.68rem; padding: 0.18rem 0.45rem; background: var(--bg); border-radius: 999px; color: var(--muted); }
+    .share-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.65rem 0.85rem;
+      min-height: var(--touch);
+      border: 1px solid var(--primary);
+      border-radius: 8px;
+      background: var(--primary);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .share-btn:hover { background: var(--primary-hover); }
+    .share-btn:active { transform: scale(0.99); }
+    .share-status {
+      min-height: 1.1rem;
+      margin: 0.35rem 0 0;
+      color: var(--muted);
+      font-size: 0.76rem;
+      text-align: center;
+    }
 
     @media (min-width: 900px) {
       .viewer {
@@ -215,6 +240,8 @@
           <dd id="desc"></dd>
         </dl>
         <div class="keywords" id="keywords"></div>
+        <button type="button" class="share-btn" id="shareBtn">Share this photo</button>
+        <p class="share-status" id="shareStatus" aria-live="polite"></p>
       </aside>
     </div>
   </div>
@@ -252,6 +279,18 @@
           hour: 'numeric',
           minute: '2-digit'
         }).format(date);
+      }
+
+      function photoUrl(img) {
+        const url = new URL(window.location.href);
+        url.hash = img ? img.id : '';
+        return url.toString();
+      }
+
+      function indexFromHash() {
+        const id = decodeURIComponent(window.location.hash.replace(/^#/, ''));
+        if (!id) return -1;
+        return list.findIndex(img => img.id === id || img.filename === id);
       }
 
       function showCurrent() {
@@ -294,6 +333,11 @@
           kw.appendChild(span);
         }
 
+        if (window.location.hash.replace(/^#/, '') !== img.id) {
+          history.replaceState(null, '', photoUrl(img));
+        }
+        document.getElementById('shareStatus').textContent = '';
+
         updateCounter();
         updateHeaderVisibility();
       }
@@ -321,6 +365,53 @@
         showCurrent();
       }
 
+      function goToHash() {
+        const hashIndex = indexFromHash();
+        if (hashIndex === -1 || hashIndex === currentIndex) return;
+        currentIndex = hashIndex;
+        showCurrent();
+      }
+
+      function fallbackCopy(text) {
+        const input = document.createElement('input');
+        input.value = text;
+        input.setAttribute('readonly', '');
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+      }
+
+      function shareCurrent() {
+        const img = list[currentIndex];
+        if (!img) return;
+        const url = photoUrl(img);
+        const title = img.description || img.filename;
+        const shareStatus = document.getElementById('shareStatus');
+
+        if (navigator.share) {
+          navigator.share({ title, text: title, url }).catch(err => {
+            if (err.name !== 'AbortError') shareStatus.textContent = 'Could not open share sheet.';
+          });
+          return;
+        }
+
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(url).then(() => {
+            shareStatus.textContent = 'Photo link copied.';
+          }).catch(() => {
+            fallbackCopy(url);
+            shareStatus.textContent = 'Photo link copied.';
+          });
+          return;
+        }
+
+        fallbackCopy(url);
+        shareStatus.textContent = 'Photo link copied.';
+      }
+
       function openFullscreen() {
         const img = list[currentIndex];
         if (!img) return;
@@ -345,6 +436,7 @@
         document.getElementById('btnNext').addEventListener('click', function() { go(1); });
         document.getElementById('imagePrev').addEventListener('click', function(e) { e.stopPropagation(); go(-1); });
         document.getElementById('imageNext').addEventListener('click', function(e) { e.stopPropagation(); go(1); });
+        document.getElementById('shareBtn').addEventListener('click', shareCurrent);
         document.getElementById('fullscreenClose').addEventListener('click', closeFullscreen);
         document.getElementById('fullscreen').addEventListener('click', function(e) {
           if (e.target === this || e.target.classList.contains('hint')) closeFullscreen();
@@ -355,6 +447,7 @@
           if (e.key === 'ArrowRight') { go(1); e.preventDefault(); }
           if (e.key === 'Escape') { closeFullscreen(); e.preventDefault(); }
         });
+        window.addEventListener('hashchange', goToHash);
 
         var imageWrap = document.getElementById('imageWrap');
         var lastTap = 0;
@@ -376,7 +469,7 @@
         .then(json => {
           data = json;
           list = data.images;
-          currentIndex = 0;
+          currentIndex = Math.max(0, indexFromHash());
           document.getElementById('load').hidden = true;
           document.getElementById('app').hidden = false;
           if (list.length) {
