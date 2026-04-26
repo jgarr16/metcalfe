@@ -264,7 +264,7 @@
         }, { passive: false });
       }
 
-      fetch('images/index.json')
+      fetch('images/index.json?v=' + Date.now(), { cache: 'no-store' })
         .then(r => r.ok ? r.json() : Promise.reject(new Error(r.statusText)))
         .then(json => {
           data = json;
