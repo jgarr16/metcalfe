@@ -326,13 +326,6 @@
           span.textContent = k;
           kw.appendChild(span);
         });
-        if (!(img.keywords || []).length) {
-          const span = document.createElement('span');
-          span.className = 'keyword';
-          span.textContent = 'No keywords';
-          kw.appendChild(span);
-        }
-
         if (window.location.hash.replace(/^#/, '') !== img.id) {
           history.replaceState(null, '', photoUrl(img));
         }
