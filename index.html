@@ -84,15 +84,61 @@
     .nav-counter { font-size: 0.85rem; color: var(--muted); min-width: 3.5rem; text-align: center; }
 
     .details {
-      max-height: 30svh;
       overflow: auto;
-      padding: 0.55rem clamp(0.75rem, 2vw, 1rem) 0.65rem;
+      padding: clamp(0.75rem, 2vw, 1rem);
       border-top: 1px solid var(--border);
       background: var(--card);
     }
-    .details .description { font-size: clamp(0.82rem, 1.8vw, 0.95rem); margin: 0; line-height: 1.35; word-wrap: break-word; }
-    .details .keywords { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.25rem; }
-    .details .keyword { font-size: 0.65rem; padding: 0.15rem 0.4rem; background: var(--bg); border-radius: 3px; color: var(--muted); }
+    .details .eyebrow {
+      margin: 0 0 0.15rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .details h2 {
+      margin: 0 0 0.75rem;
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      line-height: 1.2;
+    }
+    .detail-grid {
+      display: grid;
+      grid-template-columns: minmax(4.75rem, max-content) minmax(0, 1fr);
+      gap: 0.55rem 0.75rem;
+      margin: 0;
+      font-size: clamp(0.86rem, 1.7vw, 0.95rem);
+    }
+    .detail-grid dt {
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .detail-grid dd {
+      margin: 0;
+      min-width: 0;
+      word-wrap: break-word;
+    }
+    .detail-grid .empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+    .details .keywords { display: flex; flex-wrap: wrap; gap: 0.25rem; margin-top: 0.75rem; }
+    .details .keyword { font-size: 0.68rem; padding: 0.18rem 0.45rem; background: var(--bg); border-radius: 999px; color: var(--muted); }
+
+    @media (min-width: 900px) {
+      .viewer {
+        grid-template-columns: minmax(0, 1fr) minmax(18rem, 24rem);
+        grid-template-rows: minmax(0, 1fr) auto;
+      }
+      .image-wrap { grid-column: 1; grid-row: 1; }
+      .nav-row { grid-column: 1; grid-row: 2; }
+      .details {
+        grid-column: 2;
+        grid-row: 1 / 3;
+        border-top: 0;
+        border-left: 1px solid var(--border);
+      }
+    }
 
     /* Fullscreen overlay */
     .fullscreen {
@@ -135,10 +181,19 @@
         <span class="nav-counter" id="counter"></span>
         <button type="button" class="nav-btn" id="btnNext" aria-label="Next">&#187;&#187;</button>
       </div>
-      <div class="details">
-        <p class="description" id="desc"></p>
+      <aside class="details" aria-label="Image details">
+        <p class="eyebrow" id="imageName"></p>
+        <h2 id="detailTitle">Image Details</h2>
+        <dl class="detail-grid">
+          <dt>Room</dt>
+          <dd id="room"></dd>
+          <dt>Date Taken</dt>
+          <dd id="takenDate"></dd>
+          <dt>Note</dt>
+          <dd id="desc"></dd>
+        </dl>
         <div class="keywords" id="keywords"></div>
-      </div>
+      </aside>
     </div>
   </div>
 
@@ -153,6 +208,29 @@
       let data = null;
       let list = [];
       let currentIndex = 0;
+
+      function setText(id, value, emptyText) {
+        const el = document.getElementById(id);
+        const hasValue = Boolean(value);
+        el.textContent = hasValue ? value : emptyText;
+        el.classList.toggle('empty', !hasValue);
+      }
+
+      function formatDateTaken(value) {
+        if (!value) return '';
+        const match = value.match(/^(\d{4}):(\d{2}):(\d{2}) (\d{2}):(\d{2}):(\d{2})$/);
+        if (!match) return value;
+        const [, year, month, day, hour, minute, second] = match;
+        const date = new Date(Number(year), Number(month) - 1, Number(day), Number(hour), Number(minute), Number(second));
+        return new Intl.DateTimeFormat(undefined, {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit'
+        }).format(date);
+      }
 
       function showCurrent() {
         const img = list[currentIndex];
@@ -174,12 +252,12 @@
         };
         mainImg.src = img.url;
 
-        const details = document.querySelector('.details');
-        const hasDescription = Boolean(img.description);
-        const hasKeywords = Boolean((img.keywords || []).length);
-        details.hidden = !hasDescription && !hasKeywords;
+        document.getElementById('imageName').textContent = img.filename;
+        document.getElementById('detailTitle').textContent = img.description || 'Image needs description';
+        setText('room', img.room, 'Not set');
+        setText('takenDate', formatDateTaken(img.created), 'Not available');
+        setText('desc', img.description, 'No description yet');
 
-        document.getElementById('desc').textContent = img.description || '';
         const kw = document.getElementById('keywords');
         kw.innerHTML = '';
         (img.keywords || []).forEach(k => {
@@ -188,6 +266,12 @@
           span.textContent = k;
           kw.appendChild(span);
         });
+        if (!(img.keywords || []).length) {
+          const span = document.createElement('span');
+          span.className = 'keyword';
+          span.textContent = 'No keywords';
+          kw.appendChild(span);
+        }
 
         updateCounter();
         updateHeaderVisibility();
