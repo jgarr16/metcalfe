@@ -377,7 +377,14 @@
         document.body.removeChild(input);
       }
 
-      function shareCurrent() {
+      async function imageFile(img) {
+        const response = await fetch(img.url);
+        if (!response.ok) throw new Error('Image could not be loaded for sharing.');
+        const blob = await response.blob();
+        return new File([blob], img.filename, { type: blob.type || 'image/jpeg' });
+      }
+
+      async function shareCurrent() {
         const img = list[currentIndex];
         if (!img) return;
         const url = photoUrl(img);
@@ -385,9 +392,32 @@
         const shareStatus = document.getElementById('shareStatus');
 
         if (navigator.share) {
-          navigator.share({ title, text: title, url }).catch(err => {
-            if (err.name !== 'AbortError') shareStatus.textContent = 'Could not open share sheet.';
-          });
+          shareStatus.textContent = 'Preparing share...';
+          try {
+            if (navigator.canShare) {
+              const file = await imageFile(img);
+              if (navigator.canShare({ files: [file] })) {
+                await navigator.share({ title, text: title, url, files: [file] });
+                shareStatus.textContent = '';
+                return;
+              }
+            }
+            await navigator.share({ title, text: title, url });
+            shareStatus.textContent = '';
+          } catch (err) {
+            if (err.name !== 'AbortError') shareStatus.textContent = 'Could not share image; link copied instead.';
+            if (err.name !== 'AbortError') {
+              try {
+                if (navigator.clipboard && navigator.clipboard.writeText) {
+                  await navigator.clipboard.writeText(url);
+                } else {
+                  fallbackCopy(url);
+                }
+              } catch (_) {
+                fallbackCopy(url);
+              }
+            }
+          }
           return;
         }
 
