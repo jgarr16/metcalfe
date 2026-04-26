@@ -10,9 +10,9 @@
       "filename": "METCALFE-001.jpg",
       "url": "images/METCALFE-001.jpg",
       "created": "2026:02:05 09:21:37",
-      "description": "",
+      "description": "AT&T Battery Backup does not have a battery, does not appear to be connected but cannot be removed",
       "keywords": [],
-      "room": ""
+      "room": "Living Room"
     },
     {
       "id": "METCALFE-002",
@@ -21,9 +21,9 @@
       "filename": "METCALFE-002.jpg",
       "url": "images/METCALFE-002.jpg",
       "created": "2026:02:05 08:53:22",
-      "description": "",
+      "description": "Garage floor is quite stained and dirty and in a state of disarray. Additionally, leftover shelves, shelving, and furniture pieces are in the garage",
       "keywords": [],
-      "room": ""
+      "room": "Garage"
     },
     {
       "id": "METCALFE-003",
@@ -32,9 +32,9 @@
       "filename": "METCALFE-003.jpg",
       "url": "images/METCALFE-003.jpg",
       "created": "2026:02:05 07:57:54",
-      "description": "",
+      "description": "Multiple rubs appear to be from old trash can placement",
       "keywords": [],
-      "room": ""
+      "room": "Kitchen"
     },
     {
       "id": "METCALFE-004",
@@ -43,9 +43,9 @@
       "filename": "METCALFE-004.jpg",
       "url": "images/METCALFE-004.jpg",
       "created": "2026:02:05 07:35:05",
-      "description": "",
+      "description": "Damage to lamp shade over kitchen countertop",
       "keywords": [],
-      "room": ""
+      "room": "Kitchen"
     },
     {
       "id": "METCALFE-005",
@@ -54,9 +54,9 @@
       "filename": "METCALFE-005.jpg",
       "url": "images/METCALFE-005.jpg",
       "created": "2026:02:05 07:34:56",
-      "description": "",
+      "description": "Refrigerator has residual protective covering",
       "keywords": [],
-      "room": ""
+      "room": "Kitchen"
     },
     {
       "id": "METCALFE-006",
@@ -65,9 +65,9 @@
       "filename": "METCALFE-006.jpg",
       "url": "images/METCALFE-006.jpg",
       "created": "2026:02:05 07:34:49",
-      "description": "",
+      "description": "Refrigerator has residual protective covering",
       "keywords": [],
-      "room": ""
+      "room": "Kitchen"
     },
     {
       "id": "METCALFE-007",
@@ -76,9 +76,9 @@
       "filename": "METCALFE-007.jpg",
       "url": "images/METCALFE-007.jpg",
       "created": "2026:02:02 15:21:47",
-      "description": "",
+      "description": "Blinds and kitchen window do not go all the way down to the bottom",
       "keywords": [],
-      "room": ""
+      "room": "Kitchen"
     },
     {
       "id": "METCALFE-008",
@@ -87,9 +87,9 @@
       "filename": "METCALFE-008.jpg",
       "url": "images/METCALFE-008.jpg",
       "created": "2026:02:02 15:21:28",
-      "description": "",
+      "description": "The reason that the blinds in the kitchen window don't go all the way to the bottom is that the drawstring line is damaged and repaired by a knot",
       "keywords": [],
-      "room": ""
+      "room": "Kitchen"
     },
     {
       "id": "METCALFE-009",
@@ -98,9 +98,9 @@
       "filename": "METCALFE-009.jpg",
       "url": "images/METCALFE-009.jpg",
       "created": "2026:02:02 15:21:06",
-      "description": "",
+      "description": "Window screens: filthy with bug residue",
       "keywords": [],
-      "room": ""
+      "room": "Dining room"
     },
     {
       "id": "METCALFE-010",
@@ -109,9 +109,9 @@
       "filename": "METCALFE-010.jpg",
       "url": "images/METCALFE-010.jpg",
       "created": "2026:02:02 15:19:39",
-      "description": "",
+      "description": "Window screens: filthy with bug residue",
       "keywords": [],
-      "room": ""
+      "room": "Living room"
     },
     {
       "id": "METCALFE-011",
@@ -120,9 +120,9 @@
       "filename": "METCALFE-011.jpg",
       "url": "images/METCALFE-011.jpg",
       "created": "2026:02:02 15:18:53",
-      "description": "",
+      "description": "Inside window seal scratched and damaged",
       "keywords": [],
-      "room": ""
+      "room": "Dining room"
     },
     {
       "id": "METCALFE-012",
@@ -131,9 +131,9 @@
       "filename": "METCALFE-012.jpg",
       "url": "images/METCALFE-012.jpg",
       "created": "2026:02:02 15:17:30",
-      "description": "",
+      "description": "Delaminated paint on kickboards",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs hallway"
     },
     {
       "id": "METCALFE-013",
@@ -142,9 +142,9 @@
       "filename": "METCALFE-013.jpg",
       "url": "images/METCALFE-013.jpg",
       "created": "2026:02:02 15:14:10",
-      "description": "",
+      "description": "Leftover temporary towel holders installed",
       "keywords": [],
-      "room": ""
+      "room": "Master bathroom"
     },
     {
       "id": "METCALFE-014",
@@ -153,9 +153,9 @@
       "filename": "METCALFE-014.jpg",
       "url": "images/METCALFE-014.jpg",
       "created": "2026:02:02 15:12:32",
-      "description": "",
+      "description": "Under-sink cabinets stained and waterlogged",
       "keywords": [],
-      "room": ""
+      "room": "Master bathroom"
     },
     {
       "id": "METCALFE-015",
@@ -164,9 +164,9 @@
       "filename": "METCALFE-015.jpg",
       "url": "images/METCALFE-015.jpg",
       "created": "2026:02:02 15:10:57",
-      "description": "",
+      "description": "Chrome lining and shower scratched",
       "keywords": [],
-      "room": ""
+      "room": "Master bathroom"
     },
     {
       "id": "METCALFE-016",
@@ -175,9 +175,9 @@
       "filename": "METCALFE-016.jpg",
       "url": "images/METCALFE-016.jpg",
       "created": "2026:02:02 15:09:56",
-      "description": "",
+      "description": "Toilet paper dispenser is broken",
       "keywords": [],
-      "room": ""
+      "room": "Master bathroom"
     },
     {
       "id": "METCALFE-017",
@@ -186,9 +186,9 @@
       "filename": "METCALFE-017.jpg",
       "url": "images/METCALFE-017.jpg",
       "created": "2026:02:02 15:08:49",
-      "description": "",
+      "description": "Shower floor tiles are worn and dirty",
       "keywords": [],
-      "room": ""
+      "room": "Master bathroom"
     },
     {
       "id": "METCALFE-018",
@@ -197,9 +197,9 @@
       "filename": "METCALFE-018.jpg",
       "url": "images/METCALFE-018.jpg",
       "created": "2026:02:02 15:08:00",
-      "description": "",
+      "description": "Tile near entrance to bathroom cracked",
       "keywords": [],
-      "room": ""
+      "room": "Master bathroom"
     },
     {
       "id": "METCALFE-019",
@@ -208,9 +208,9 @@
       "filename": "METCALFE-019.jpg",
       "url": "images/METCALFE-019.jpg",
       "created": "2026:02:02 15:07:37",
-      "description": "",
+      "description": "Scratches and damage to door",
       "keywords": [],
-      "room": ""
+      "room": "Master bedroom"
     },
     {
       "id": "METCALFE-020",
@@ -219,9 +219,9 @@
       "filename": "METCALFE-020.jpg",
       "url": "images/METCALFE-020.jpg",
       "created": "2026:02:02 15:06:46",
-      "description": "",
+      "description": "Joint at ceiling and wall delaminated",
       "keywords": [],
-      "room": ""
+      "room": "Middle bedroom"
     },
     {
       "id": "METCALFE-021",
@@ -230,9 +230,9 @@
       "filename": "METCALFE-021.jpg",
       "url": "images/METCALFE-021.jpg",
       "created": "2026:02:02 15:04:44",
-      "description": "",
+      "description": "Scuff marks throughout the house tend to blend in with the flooring but are present in every room",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs hallway"
     },
     {
       "id": "METCALFE-022",
@@ -241,9 +241,9 @@
       "filename": "METCALFE-022.jpg",
       "url": "images/METCALFE-022.jpg",
       "created": "2026:02:02 15:03:52",
-      "description": "",
+      "description": "Damage to wall",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs laundry room"
     },
     {
       "id": "METCALFE-023",
@@ -252,9 +252,9 @@
       "filename": "METCALFE-023.jpg",
       "url": "images/METCALFE-023.jpg",
       "created": "2026:02:02 15:03:16",
-      "description": "",
+      "description": "Damage to wall",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs hallway"
     },
     {
       "id": "METCALFE-024",
@@ -263,9 +263,9 @@
       "filename": "METCALFE-024.jpg",
       "url": "images/METCALFE-024.jpg",
       "created": "2026:02:02 15:02:49",
-      "description": "",
+      "description": "Doorstop for the laundry room door, near second bathroom, is broken and missing",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs hallway"
     },
     {
       "id": "METCALFE-025",
@@ -274,9 +274,9 @@
       "filename": "METCALFE-025.jpg",
       "url": "images/METCALFE-025.jpg",
       "created": "2026:02:02 15:02:19",
-      "description": "",
+      "description": "Paint damage to door jamb for the third bedroom",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs hallway"
     },
     {
       "id": "METCALFE-026",
@@ -285,9 +285,9 @@
       "filename": "METCALFE-026.jpg",
       "url": "images/METCALFE-026.jpg",
       "created": "2026:02:02 15:01:49",
-      "description": "",
+      "description": "Damage to the window sills in the main living room",
       "keywords": [],
-      "room": ""
+      "room": "Living room"
     },
     {
       "id": "METCALFE-027",
@@ -296,9 +296,9 @@
       "filename": "METCALFE-027.jpg",
       "url": "images/METCALFE-027.jpg",
       "created": "2026:02:02 15:01:41",
-      "description": "",
+      "description": "Damage to the window sills in the main living room",
       "keywords": [],
-      "room": ""
+      "room": "Living room"
     },
     {
       "id": "METCALFE-028",
@@ -307,9 +307,9 @@
       "filename": "METCALFE-028.jpg",
       "url": "images/METCALFE-028.jpg",
       "created": "2026:02:02 14:58:52",
-      "description": "",
+      "description": "Cracked tile near the toilet",
       "keywords": [],
-      "room": ""
+      "room": "Small bathroom"
     },
     {
       "id": "METCALFE-029",
@@ -318,9 +318,9 @@
       "filename": "METCALFE-029.jpg",
       "url": "images/METCALFE-029.jpg",
       "created": "2026:02:02 14:58:38",
-      "description": "",
+      "description": "Cracked tile behind the toilet",
       "keywords": [],
-      "room": ""
+      "room": "Small bathroom"
     },
     {
       "id": "METCALFE-030",
@@ -329,9 +329,9 @@
       "filename": "METCALFE-030.jpg",
       "url": "images/METCALFE-030.jpg",
       "created": "2026:02:02 14:58:21",
-      "description": "",
+      "description": "Cracked tile in front of the toilet",
       "keywords": [],
-      "room": ""
+      "room": "Small bathroom"
     },
     {
       "id": "METCALFE-031",
@@ -340,9 +340,9 @@
       "filename": "METCALFE-031.jpg",
       "url": "images/METCALFE-031.jpg",
       "created": "2026:02:02 14:57:45",
-      "description": "",
+      "description": "Damage to countertop",
       "keywords": [],
-      "room": ""
+      "room": "Small bathroom"
     },
     {
       "id": "METCALFE-032",
@@ -351,9 +351,9 @@
       "filename": "METCALFE-032.jpg",
       "url": "images/METCALFE-032.jpg",
       "created": "2026:02:02 14:55:39",
-      "description": "",
+      "description": "Doorstop to closet: damaged and loose",
       "keywords": [],
-      "room": ""
+      "room": "Third bedroom"
     },
     {
       "id": "METCALFE-033",
@@ -362,9 +362,9 @@
       "filename": "METCALFE-033.jpg",
       "url": "images/METCALFE-033.jpg",
       "created": "2026:02:02 14:55:11",
-      "description": "",
+      "description": "Scuff marks and damage to flooring near small bathroom",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs hallway"
     },
     {
       "id": "METCALFE-034",
@@ -373,9 +373,9 @@
       "filename": "METCALFE-034.jpg",
       "url": "images/METCALFE-034.jpg",
       "created": "2026:02:02 14:53:59",
-      "description": "",
+      "description": "Scuff marks throughout the house tend to blend in with the flooring but are present in every room",
       "keywords": [],
-      "room": ""
+      "room": "Master bedroom"
     },
     {
       "id": "METCALFE-035",
@@ -384,9 +384,9 @@
       "filename": "METCALFE-035.jpg",
       "url": "images/METCALFE-035.jpg",
       "created": "2026:02:02 14:53:38",
-      "description": "",
+      "description": "Scuff marks throughout the house tend to blend in with the flooring but are present in every room",
       "keywords": [],
-      "room": ""
+      "room": "Upstairs hallway"
     },
     {
       "id": "METCALFE-036",
@@ -395,9 +395,9 @@
       "filename": "METCALFE-036.jpg",
       "url": "images/METCALFE-036.jpg",
       "created": "2026:02:02 14:52:55",
-      "description": "",
+      "description": "Damage to the kick board",
       "keywords": [],
-      "room": ""
+      "room": "Stairwell"
     },
     {
       "id": "METCALFE-037",
@@ -406,9 +406,9 @@
       "filename": "METCALFE-037.jpg",
       "url": "images/METCALFE-037.jpg",
       "created": "2026:02:02 14:51:53",
-      "description": "",
+      "description": "Damage to the kick board",
       "keywords": [],
-      "room": ""
+      "room": "Stairwell"
     },
     {
       "id": "METCALFE-038",
@@ -417,9 +417,9 @@
       "filename": "METCALFE-038.jpg",
       "url": "images/METCALFE-038.jpg",
       "created": "2026:02:02 14:51:35",
-      "description": "",
+      "description": "Damage to the sheetrock of the wall",
       "keywords": [],
-      "room": ""
+      "room": "Stairwell"
     },
     {
       "id": "METCALFE-039",
